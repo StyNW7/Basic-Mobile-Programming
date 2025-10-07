@@ -211,8 +211,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Method to get the current input value (useful for further processing)
-    public String getInputValue() {
-        return inputDisplay.getText().toString();
-    }
 }
