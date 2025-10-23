@@ -99,17 +99,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signout(){
-        //tendang ke login
+
+        // Go to login
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
         finish();
 
-        //TODO: hapus username dari shared pref
+        SharedPreferences sp = getSharedPreferences("configuser", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("username", "");
+        editor.apply();
 
     }
 
     private void checkUser() {
-        //TODO: ambil username dari shared pref
+        SharedPreferences sp = getSharedPreferences("configuser", MODE_PRIVATE);
+        String username = sp.getString("username", "");
+        if (username.isEmpty()){
+            signout();
+        }
+        else {
 
+        }
     }
+
 }

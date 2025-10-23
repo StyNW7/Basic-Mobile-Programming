@@ -42,13 +42,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        String username = binding.txtUsername.getText().toString();
 
-        //TODO: masukkin username ke SharedPreference
+        if (v.getId() == binding.btnLogin.getId()) {
 
+            String username = binding.txtUsername.getText().toString();
 
-        //pindah ke MainActivity. gausah bawa username karena nnti di sana kita mau ambil pakai SharedPreference
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
+            //TODO: masukkin username ke SharedPreference
+            SharedPreferences sp = getSharedPreferences("configuser", MODE_PRIVATE);
+            sp.edit().putString("username", username).apply();
+
+            //pindah ke MainActivity. gausah bawa username karena nnti di sana kita mau ambil pakai SharedPreference
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+
+        }
+
     }
 }
