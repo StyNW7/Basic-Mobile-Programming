@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -76,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         });
         rvNotes.setAdapter(noteAdapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,4 +105,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -6,7 +6,7 @@ public class Note implements Serializable {
     private long id;
     private String title;
     private String body;
-    private long lastEditedAt; // ini buat timestamp
+    private long lastEditedAt;
 
     public Note() {
     }
