@@ -24,7 +24,6 @@ public class NoteDetailActivity extends AppCompatActivity {
         tvDetailBody = findViewById(R.id.tvDetailBody);
         dbHelper = new DatabaseHelper(this);
 
-        // Ambil id dari sqlite.
         noteId = getIntent().getLongExtra("NOTE_ID", -1);
 
         if (noteId != -1) {

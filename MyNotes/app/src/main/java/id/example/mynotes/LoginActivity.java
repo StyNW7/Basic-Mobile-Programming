@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        // Cek jika user sudah login, langsung ke MainActivity
         if (sessionManager.isLoggedIn()) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -30,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword); // Password tidak divalidasi, sesuai permintaan
+        etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -43,10 +42,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Simpan sesi
                 sessionManager.saveLogin(username);
 
-                // Pindah ke MainActivity
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

@@ -63,8 +63,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_NOTES, new String[]{KEY_ID, KEY_TITLE, KEY_BODY, KEY_LAST_EDITED_AT},
                 KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null)
+        if (cursor != null) {
             cursor.moveToFirst();
+        }
 
         Note note = new Note(
                 cursor.getLong(0),
@@ -102,7 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return noteList;
     }
 
-    // ini untuk bantu format timestamp
+    // Timestamp
     public static String formatTimestamp(long timestamp) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
@@ -112,4 +113,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return String.valueOf(timestamp);
         }
     }
+
 }

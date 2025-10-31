@@ -35,6 +35,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void saveNoteToDB() {
+
         String title = etNoteTitle.getText().toString().trim();
         String body = etNoteBody.getText().toString().trim();
         long currentTime = System.currentTimeMillis();
@@ -44,11 +45,11 @@ public class CreateNoteActivity extends AppCompatActivity {
             return;
         }
 
-        // Buat note baru (ID 0 karena akan auto-increment oleh SQLite)
         Note newNote = new Note(0, title, body, currentTime);
         dbHelper.addNote(newNote);
 
         Toast.makeText(this, "Note saved!", Toast.LENGTH_SHORT).show();
-        finish(); // Kembali ke MainActivity
+        finish();
+
     }
 }

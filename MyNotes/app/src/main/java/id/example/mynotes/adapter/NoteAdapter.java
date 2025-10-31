@@ -28,7 +28,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // SOLUSI: Menggunakan R.layout.item_layout sesuai nama file Anda
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_layout, parent, false);
         return new NoteViewHolder(view);

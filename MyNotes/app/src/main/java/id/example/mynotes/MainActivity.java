@@ -38,12 +38,10 @@ public class MainActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.tvUsername);
         rvNotes = findViewById(R.id.rvNotes);
 
-        // handle apakah sudah login atau belum?
         if (sessionManager.isLoggedIn()) {
             tvUsername.setText("Welcome, " + sessionManager.getUsername());
 
         } else {
-            // Jika belum login, pastikan pindah ke LoginActivity (Implementasi Request 11)
             goToLogin();
             return;
         }
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         rvNotes.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    // Method khusus untuk pindah ke LoginActivity dengan flags
     private void goToLogin() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         // TODO: Set flags agar user tidak bisa kembali ke MainActivity dari LoginActivity
@@ -64,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // load ulang data setiap kembali ke sini
         loadNotes();
     }
 
@@ -73,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         noteAdapter = new NoteAdapter(noteList, new NoteAdapter.OnNoteClickListener() {
             @Override
             public void onNoteClick(Note note) {
-                // Handle klik item
                 Intent intent = new Intent(MainActivity.this, NoteDetailActivity.class);
                 intent.putExtra("NOTE_ID", note.getId());
                 startActivity(intent);
@@ -103,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         } else if (id == R.id.action_logout) {
-            // Logout. sessionManager panggil logout untuk hapus info user
             sessionManager.logout();
             // TODO: Pindah ke LoginActivity
             goToLogin();
