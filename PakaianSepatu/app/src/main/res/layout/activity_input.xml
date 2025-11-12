@@ -2,45 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/input_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:orientation="vertical"
-    android:padding="20dp">
+    tools:context=".InputActivity"
+    android:orientation="vertical">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="20sp"/>
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:src="@drawable/raisa"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input product name"
+        android:textSize="20sp"
+        android:id="@+id/tvName"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Name: Stanley Nathannael Wijaya"
-        android:textAlignment="center"/>
+        android:text="Quantity"
+        android:textSize="20sp"/>
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Input quantity"
         android:textSize="20sp"
-        android:text="NIM: 2702217125"
-        android:textAlignment="center"/>
+        android:id="@+id/tvQuantity"/>
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Submit"
         android:textSize="20sp"
-        android:text="Class: LG01"
-        android:textAlignment="center"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="Course: Mobile Programming"
-        android:textAlignment="center"/>
+        android:id="@+id/btnSubmit"/>
 
 </LinearLayout>

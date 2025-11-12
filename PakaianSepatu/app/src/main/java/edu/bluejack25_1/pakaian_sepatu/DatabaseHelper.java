@@ -2,10 +2,15 @@ package edu.bluejack25_1.pakaian_sepatu;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+
+import edu.bluejack25_1.pakaian_sepatu.model.Order;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -41,6 +46,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             success = true;
         }
         return success;
+    }
+
+    public ArrayList<Order> getAllOrders(){
+
+        ArrayList<Order> orderList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM Orders";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Order order = new Order();
+                order.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
+                order.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+                order.setQuantity(cursor.getLong(cursor.getColumnIndexOrThrow("quantity")));
+                orderList.add(order);
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return orderList;
+
     }
 
 }

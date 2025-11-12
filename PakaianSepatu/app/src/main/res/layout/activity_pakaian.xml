@@ -5,6 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PakaianActivity">
+    tools:context=".PakaianActivity"
+    android:orientation="vertical">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_editor_absoluteY="1dp"
+        app:layout_editor_absoluteX="1dp"
+        android:id="@+id/listPakaian"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
