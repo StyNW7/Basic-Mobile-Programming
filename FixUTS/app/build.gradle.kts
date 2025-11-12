@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "edu.bluejack25_1.fix_uts"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "edu.bluejack25_1.fix_uts"
