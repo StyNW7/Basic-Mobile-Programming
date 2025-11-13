@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Note getNote(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NOTES, new String[]{KEY_ID, KEY_TITLE, KEY_BODY, KEY_LAST_EDITED_AT},
-                KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+                    KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();

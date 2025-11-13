@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private NoteAdapter noteAdapter;
     private ArrayList<Note> noteList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -32,6 +32,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 saveNoteToDB();
             }
         });
+
     }
 
     private void saveNoteToDB() {
