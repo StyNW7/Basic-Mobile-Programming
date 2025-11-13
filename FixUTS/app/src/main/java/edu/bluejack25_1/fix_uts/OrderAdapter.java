@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.bluejack25_1.fix_uts.model.Order;
@@ -32,7 +33,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         Order order = orderList.get(position);
         holder.txtName.setText(order.getName());
         holder.txtOrderName.setText(order.getOrderName());
-        holder.txtPrice.setText(order.getQuantity());
+        holder.txtQuantity.setText(order.getQuantity());
     }
 
     @Override
@@ -41,14 +42,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView txtName, txtOrderName, txtPrice;
 
+        TextView txtName, txtOrderName, txtQuantity;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtName = itemView.findViewById(R.id.txtName);
-            txtOrderName = itemView.findViewById(R.id.txtName);
-            txtPrice = itemView.findViewById(R.id.txtPrice);
+            txtName = itemView.findViewById(R.id.editName);
+            txtOrderName = itemView.findViewById(R.id.editOrder);
+            txtQuantity = itemView.findViewById(R.id.editQuantity);
         }
     }
+
 
 }

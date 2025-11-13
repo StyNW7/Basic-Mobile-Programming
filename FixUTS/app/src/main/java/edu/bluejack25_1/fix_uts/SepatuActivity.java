@@ -28,7 +28,7 @@ public class SepatuActivity extends AppCompatActivity {
             return insets;
         });
 
-        listSepatu = findViewById(R.id.listSepatu);
+        listSepatu = (ListView) findViewById(R.id.listSepatu);
         ArrayList <Product> products = new ArrayList<>();
 
         Product prod1 = new Product(R.drawable.sepatu1, "Sepatu 1", "50000");

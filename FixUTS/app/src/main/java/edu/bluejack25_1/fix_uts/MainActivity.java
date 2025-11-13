@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         // Hafal ini
 
         orderView = findViewById(R.id.rvOrder);
-
         dbHelper = new DatabaseHelper(this);
         orderList = dbHelper.getAllOrders();
 

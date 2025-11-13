@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -16,8 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class InputActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
-    private EditText editName, editOrder, editQuantity;
-
+    private EditText edName, edOrderName, edQuantity;
     private Button submitBtn;
 
     @Override
@@ -32,25 +32,41 @@ public class InputActivity extends AppCompatActivity {
         });
 
         dbHelper = new DatabaseHelper(this);
-        editName = findViewById(R.id.editName);
-        editOrder = findViewById(R.id.editOrder);
-        editQuantity = findViewById(R.id.editQuantity);
+        edName = findViewById(R.id.editName);
+        edOrderName = findViewById(R.id.editOrder);
+        edQuantity = findViewById(R.id.editQuantity);
+
         submitBtn = findViewById(R.id.submitBtn);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                boolean result = dbHelper.insertOrder(editName.getText().toString().trim(),
-                        editOrder.getText().toString().trim(),
-                        editQuantity.getText().toString().trim());
-                if (result){
+            public void onClick(View view) {
+                boolean insert = dbHelper.insertOrder(
+                        edName.getText().toString().trim(),
+                        edOrderName.getText().toString().trim(),
+                        edQuantity.getText().toString().trim()
+                );
+                if (insert){
                     Toast.makeText(InputActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(InputActivity.this, MainActivity.class);
                     startActivity(intent);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(InputActivity.this);
+                    alert.setTitle("Success");
+                    alert.setMessage("Berhasil");
+                    alert.setCancelable(true);
+                    alert.show();
                 }
-                else{
+                else {
                     Toast.makeText(InputActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
+//                StringBuffer buff = new StringBuffer();
+//                while(cursor.moveToNext())
+//                buff.append("Nama" + cursor.getString(0) + "\n);
+//                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//                alert.setTitle("Orang");
+//                alert.setCancelable(true);
+//                alert.setMessage(buff);
+//                alert.show();
             }
         });
 
