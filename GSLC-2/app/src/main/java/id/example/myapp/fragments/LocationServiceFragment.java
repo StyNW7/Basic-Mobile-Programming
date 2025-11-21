@@ -20,19 +20,19 @@ import id.example.myapp.services.LocationMonitorService;
 public class LocationServiceFragment extends Fragment {
     FragmentLocationServiceBinding binding;
 
-    public LocationServiceFragment() {
-    }
+    public LocationServiceFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLocationServiceBinding.inflate(inflater, container, false);
 
+        // Coordinate from the question given
         binding.etLat.setText("-6.2236284");
         binding.etLong.setText("106.64921960680044");
         binding.etLat.setEnabled(false);
         binding.etLong.setEnabled(false);
-        binding.tvResult.setText("Tekan tombol untuk mulai service...");
+        binding.tvResult.setText("Press button to start the service...");
 
         binding.btnStartTracking.setText("Start Monitor Service");
         binding.btnStartTracking.setOnClickListener(v -> {
@@ -54,12 +54,11 @@ public class LocationServiceFragment extends Fragment {
         if (locPermission && notifPermission) {
             startMyService();
         } else {
-            // Minta Permission
             String[] permissions;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 permissions = new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION, // Tambah Coarse untuk network
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.POST_NOTIFICATIONS
                 };
             } else {
@@ -81,6 +80,7 @@ public class LocationServiceFragment extends Fragment {
             requireContext().startService(serviceIntent);
         }
 
-        binding.tvResult.setText("Service Sedang Berjalan...\nCoba berjalan di sekitar area.");
+        binding.tvResult.setText("Service Running...");
     }
+
 }

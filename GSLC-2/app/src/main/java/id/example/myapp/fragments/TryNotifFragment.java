@@ -30,7 +30,6 @@ public class TryNotifFragment extends Fragment {
     private static final String CHANNEL_ID = "channel_trial";
 
     public TryNotifFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -47,8 +46,8 @@ public class TryNotifFragment extends Fragment {
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String name = "Channel Trial";
-            String description = "Channel untuk notifikasi dummy";
-            int importance = NotificationManager.IMPORTANCE_HIGH; // Ubah ke HIGH agar muncul popup (heads-up)
+            String description = "Channel for Dummy Notification";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
@@ -58,34 +57,27 @@ public class TryNotifFragment extends Fragment {
     }
 
     private void checkPermissionAndNotify() {
-        // Hanya minta permission di Android 13 (Tiramisu) ke atas
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Cek apakah permission sudah diberikan
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                // kalau permissiion sudah ada, langsung tampilkan notifikasi
                 showNotification();
             }
             else{
-                // permssion belum ada, minta dlu
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 100);
             }
         } else {
-            // Untuk Android 12 ke bawah, tidak perlu izin, langsung tampilkan notifikasi
             showNotification();
         }
     }
 
     private void showNotification() {
-        // 1. Decode Gambar Logo Binus
-        // Pastikan file 'ic_binus' ada di folder res/drawable (bukan mipmap)
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_binus);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_info) // Icon kecil (harus putih/transparan)
-                .setLargeIcon(largeIcon) // Icon Besar (Logo Binus Muncul Disini)
-                .setContentTitle("Test Notifikasi Binus")
-                .setContentText("Jika anda melihat logo Binus di samping, berarti sukses!")
-                .setPriority(NotificationCompat.PRIORITY_HIGH) // Priority High agar muncul popup
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setLargeIcon(largeIcon)
+                .setContentTitle("Notification Testing")
+                .setContentText("Notification with custom notification logo")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
         NotificationManager manager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);

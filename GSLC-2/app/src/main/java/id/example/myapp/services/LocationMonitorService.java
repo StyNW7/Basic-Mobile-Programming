@@ -32,7 +32,7 @@ public class LocationMonitorService extends Service {
     private static final int NOTIFICATION_ID_FOREGROUND = 123;
     private static final int NOTIFICATION_ID_ALERT = 999;
 
-    // Koordinat Binus Alam Sutera
+    // Binus Alam Sutera Coordinate
     private static final double TARGET_LAT = -6.2236284;
     private static final double TARGET_LONG = 106.64921960680044;
 
@@ -47,14 +47,15 @@ public class LocationMonitorService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 1. Start Foreground agar service tidak dibunuh sistem
+
+        hasNotified = false;
+
+        // Foreground Service
         startForeground(NOTIFICATION_ID_FOREGROUND, getForegroundNotification());
 
-        // 2. Mulai tracking
         startTracking();
 
-        // Beri feedback bahwa service jalan
-        Toast.makeText(this, "Monitoring Lokasi Dimulai...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Service Start and Reset...", Toast.LENGTH_SHORT).show();
 
         return START_STICKY;
     }
@@ -62,58 +63,65 @@ public class LocationMonitorService extends Service {
     private void startTracking() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            // Minta update dari GPS (Akurat tapi lambat/sulit indoor)
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
 
-            // Minta update dari NETWORK (Kurang akurat tapi cepat & bisa indoor) -> PENTING UNTUK TESTING
             if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
             }
+
+            Location lastKnownGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownGPS != null) processLocation(lastKnownGPS);
+
+            Location lastKnownNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (lastKnownNet != null) processLocation(lastKnownNet);
         }
     }
 
     private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(@NonNull Location currentLocation) {
-            // Hitung Jarak
-            float[] results = new float[1];
-            Location.distanceBetween(
-                    currentLocation.getLatitude(), currentLocation.getLongitude(),
-                    TARGET_LAT, TARGET_LONG,
-                    results);
-
-            float distanceInMeters = results[0];
-            Log.d("LOC_SERVICE", "Jarak saat ini: " + distanceInMeters + " meter");
-
-            // Logika Notifikasi (< 100 meter)
-            if (distanceInMeters < 100 && !hasNotified) {
-                triggerBinusNotification(distanceInMeters);
-                hasNotified = true;
-            }
-            // Reset jika menjauh (> 200m) agar bisa notif lagi kalau balik lagi
-            else if (distanceInMeters > 200) {
-                hasNotified = false;
-            }
+            processLocation(currentLocation);
         }
 
-        // Method ini deprecated di API baru tapi perlu ada untuk kompatibilitas lama
         @Override public void onStatusChanged(String provider, int status, Bundle extras) {}
         @Override public void onProviderEnabled(@NonNull String provider) {}
         @Override public void onProviderDisabled(@NonNull String provider) {}
     };
 
+    private void processLocation(Location currentLocation) {
+        float[] results = new float[1];
+        Location.distanceBetween(
+                currentLocation.getLatitude(), currentLocation.getLongitude(),
+                TARGET_LAT, TARGET_LONG,
+                results);
+
+        float distanceInMeters = results[0];
+        Log.d("LOC_SERVICE", "Jarak: " + distanceInMeters);
+
+        // Notification Logic (< 100 meter)
+        if (distanceInMeters < 100) {
+            if (!hasNotified) {
+                triggerBinusNotification(distanceInMeters);
+                hasNotified = true;
+            }
+        }
+
+        else if (distanceInMeters > 200) {
+            hasNotified = false;
+        }
+
+    }
+
     private void triggerBinusNotification(float distance) {
-        // Decode gambar logo Binus dari drawable
-        // Pastikan file 'ic_binus' ada di res/drawable
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_binus);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_info) // Icon kecil (harus putih/transparan)
-                .setLargeIcon(largeIcon) // Icon Besar (Bisa Full Color - Logo Binus Muncul Disini)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setLargeIcon(largeIcon)
                 .setContentTitle("Welcome to Binus Alam Sutera!")
-                .setContentText("Anda telah tiba! Jarak: " + String.format("%.0f", distance) + "m")
+                .setContentText("You already arrived! Distance: " + String.format("%.0f", distance) + "m")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setDefaults(NotificationCompat.DEFAULT_ALL) // Bunyi & Getar
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setAutoCancel(true);
 
         NotificationManager manager = getSystemService(NotificationManager.class);
@@ -123,9 +131,9 @@ public class LocationMonitorService extends Service {
     private Notification getForegroundNotification() {
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Location Monitor Active")
-                .setContentText("Mencari lokasi anda...")
+                .setContentText("Searching your location...")
                 .setSmallIcon(android.R.drawable.ic_menu_mylocation)
-                .setOngoing(true) // Tidak bisa di-swipe
+                .setOngoing(true)
                 .build();
     }
 
@@ -134,7 +142,7 @@ public class LocationMonitorService extends Service {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
                     "Location Monitor Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT // Default agar tidak terlalu mengganggu
+                    NotificationManager.IMPORTANCE_DEFAULT
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
@@ -147,7 +155,6 @@ public class LocationMonitorService extends Service {
         if (locationManager != null) {
             locationManager.removeUpdates(locationListener);
         }
-        Toast.makeText(this, "Monitoring Berhenti", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
