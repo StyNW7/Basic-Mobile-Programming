@@ -96,7 +96,7 @@ public class LocationMonitorService extends Service {
                 results);
 
         float distanceInMeters = results[0];
-        Log.d("LOC_SERVICE", "Jarak: " + distanceInMeters);
+        Log.d("LOC_SERVICE", "Distance: " + distanceInMeters);
 
         // Notification Logic (< 100 meter)
         if (distanceInMeters < 100) {

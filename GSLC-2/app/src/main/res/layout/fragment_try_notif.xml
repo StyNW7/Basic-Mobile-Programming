@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:textStyle="bold"
-            android:text="Coba Notif"
+            android:text="Notification Testing"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -24,8 +24,7 @@
             android:id="@+id/btnNotify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tampilkan Notifikasi" />
-
+            android:text="Show Notification" />
 
     </LinearLayout>
 

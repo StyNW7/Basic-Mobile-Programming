@@ -37,14 +37,14 @@
             android:id="@+id/btnStartTracking"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mulai Hitung Jarak" />
+            android:text="Start Counting Distance" />
 
         <TextView
             android:id="@+id/tvResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Jarak: Menunggu GPS..."
+            android:text="Distance: Waiting for GPS..."
             android:textSize="24sp"
             android:gravity="center"
             android:textColor="@android:color/holo_blue_dark"/>
