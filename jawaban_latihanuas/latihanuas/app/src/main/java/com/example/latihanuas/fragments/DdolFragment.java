@@ -40,6 +40,7 @@ public class DdolFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_ddol, container, false);
         txtSetup = view.findViewById(R.id.txtSetup);
         txtPunchline = view.findViewById(R.id.txtPunchline);
@@ -47,8 +48,10 @@ public class DdolFragment extends Fragment {
         btnGetAnother = view.findViewById(R.id.btnGetAnother);
         requestQueue = Volley.newRequestQueue(getContext());
 
-
+        // Fetch Ddol
         fetchDdol();
+
+        // Button untuk fetch ulang
         btnGetAnother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,9 +69,11 @@ public class DdolFragment extends Fragment {
         });
 
         return view;
+
     }
 
     private void fetchDdol() {
+
         //TODO 2A: fetch daily dose of laughter, masukkan setup dan punchline ke textview masing2
         String url = "https://official-joke-api.appspot.com/random_joke";
         JsonObjectRequest request = new JsonObjectRequest(
@@ -82,7 +87,7 @@ public class DdolFragment extends Fragment {
 
                         txtSetup.setText(setup);
                         txtPunchline.setText(punchline);
-                        txtPunchline.setVisibility(View.GONE); // 👈 RESET visibility
+                        txtPunchline.setVisibility(View.GONE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -91,7 +96,10 @@ public class DdolFragment extends Fragment {
                     Toast.makeText(getContext(), "Failed to load joke 😢", Toast.LENGTH_SHORT).show();
                 }
         );
+
         requestQueue.add(request);
         btnReveal.setEnabled(true);
+
     }
+
 }

@@ -37,18 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNav);
 
-        //TODO 1A: by default tampilin DdolFragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, new DdolFragment())
                 .commit();
 
-        //TODO 1B: atur kalau tiap menu di klik, tampilkan fragment yang sesuai
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.menu_ddol) {
+            if (item.getItemId() == R.id.menu_ddol){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DdolFragment())
                         .commit();
-            } else if (item.getItemId() == R.id.menu_dance) {
+            }
+            else if (item.getItemId() == R.id.menu_dance){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DanceFragment())
                         .commit();
