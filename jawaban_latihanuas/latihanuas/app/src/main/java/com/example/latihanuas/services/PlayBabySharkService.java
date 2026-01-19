@@ -31,9 +31,11 @@ public class PlayBabySharkService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
-        mediaPlayer.stop();
-        mediaPlayer = null;
+        if (mediaPlayer != null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Nullable

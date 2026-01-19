@@ -38,22 +38,16 @@ public class DanceFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //TODO 3C: play baby shark dari PlayBabySharkService
-                //Karena ini background service, kita pakai Intent ke PlayBabySharkService.
                 Intent serviceIntent = new Intent(getActivity(), PlayBabySharkService.class);
 
-                if (binding.btnPlayStop.getText().equals("Play")) {
-                    //code here
-                    getActivity().startService(serviceIntent);
-                    //startService() memanggil onStartCommand() di PlayBabySharkService
+                if (binding.btnPlayStop.getText().equals("Play")){
                     binding.btnPlayStop.setText("Stop");
+                    getActivity().startService(serviceIntent);
                 }
 
                 else {
-                    //code here
-                    getActivity().stopService(serviceIntent);
-                    //stopService() memanggil onDestroy() → musik berhenti
                     binding.btnPlayStop.setText("Play");
+                    getActivity().stopService(serviceIntent);
                 }
 
             }

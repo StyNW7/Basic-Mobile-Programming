@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.menu_ddol){
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, new DdolFragment())
-                        .commit();
-            }
-            else if (item.getItemId() == R.id.menu_dance){
+            if (item.getItemId() == R.id.menu_dance){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DanceFragment())
+                        .commit();
+            }
+            else if (item.getItemId() == R.id.menu_ddol){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, new DdolFragment())
                         .commit();
             }
             return false;

@@ -2,6 +2,8 @@ package com.example.latihanuas.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -37,21 +39,25 @@ public class DdolFragment extends Fragment {
 
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ddol, container, false);
+
         txtSetup = view.findViewById(R.id.txtSetup);
         txtPunchline = view.findViewById(R.id.txtPunchline);
-        btnReveal = view.findViewById(R.id.btnReveal);
         btnGetAnother = view.findViewById(R.id.btnGetAnother);
-        requestQueue = Volley.newRequestQueue(getContext());
+        btnReveal = view.findViewById(R.id.btnReveal);
+        requestQueue = Volley.newRequestQueue(this.getContext());
 
-        // Fetch Ddol
-        fetchDdol();
+        btnReveal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnReveal.setEnabled(false);
+                txtPunchline.setVisibility(View.VISIBLE);
+            }
+        });
 
-        // Button untuk fetch ulang
         btnGetAnother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,41 +65,33 @@ public class DdolFragment extends Fragment {
             }
         });
 
-        //TODO 2B: buat tiap button reveal diklik, txtPunchline muncul.
-        btnReveal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txtPunchline.setVisibility(View.VISIBLE);
-                btnReveal.setEnabled(false);
-            }
-        });
-
         return view;
-
     }
 
-    private void fetchDdol() {
+    public void fetchDdol(){
 
-        //TODO 2A: fetch daily dose of laughter, masukkan setup dan punchline ke textview masing2
         String url = "https://official-joke-api.appspot.com/random_joke";
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
-                    try {
-                        String type = response.getString("type");
-                        String setup = response.getString("setup");
-                        String punchline = response.getString("punchline");
-                        int id = response.getInt("id");
 
-                        txtSetup.setText(setup);
+                    try {
+
+                        String punchline = response.getString("punchline");
+                        String setup = response.getString("setup");
+
                         txtPunchline.setText(punchline);
+                        txtSetup.setText(setup);
                         txtPunchline.setVisibility(View.GONE);
-                    } catch (JSONException e) {
+
+                    }
+                    catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                 },
                 error -> {
-                    Toast.makeText(getContext(), "Failed to load joke 😢", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Fail to load a joke", Toast.LENGTH_SHORT).show();
                 }
         );
 
