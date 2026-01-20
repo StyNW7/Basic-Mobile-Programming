@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.latihanuas.R;
+import com.example.latihanuas.model.Joke;
+import com.example.latihanuas.services.ApiService;
 
+import org.chromium.base.Callback;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Ddol_Fragment2 extends Fragment {
 
@@ -96,5 +106,64 @@ public class Ddol_Fragment2 extends Fragment {
         getRevealBtn.setEnabled(true);
 
     }
+
+    public void postMethod(){
+
+        String url = "https://official-joke-api.appspot.com/random_joke";
+
+        JSONObject payload = new JSONObject();
+
+        try {
+            payload.put("title", "test");
+            payload.put("body", "testttt");
+            payload.put("id", 1);
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                payload,
+                response -> {
+                    Log.d("SUCCESS", response.toString());
+                },
+                error -> {
+                    Log.d("ERROR", error.toString());
+                }
+        );
+
+    }
+
+//    public void fetchRetrofit(){
+//
+//        String url = "https://official-joke-api.appspot.com/";
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(url)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ApiService apiService = retrofit.create(ApiService.class);
+//
+//        apiService.getJoke().enqueue(new Callback<Joke>() {
+//            @Override
+//            public void onResponse(Call<Joke> call, Response<Joke> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    txtSetup.setText(response.body().getSetup());
+//                    txtPunchLine.setText(response.body().getPunchline());
+//                } else {
+//                    Log.d("ERROR", "GET Method Unsuccessful");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Joke> call, Throwable t) {
+//                // Feel free to fill anything here
+//            }
+//        });
+//
+//    }
 
 }

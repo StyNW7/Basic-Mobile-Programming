@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.latihanuas.fragments.DanceFragment;
 import com.example.latihanuas.fragments.DdolFragment;
+import com.example.latihanuas.fragments.JokeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
             else if (item.getItemId() == R.id.menu_ddol){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DdolFragment())
+                        .commit();
+            }
+            else if (item.getItemId() == R.id.menu_joke){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, new JokeFragment())
                         .commit();
             }
             return false;

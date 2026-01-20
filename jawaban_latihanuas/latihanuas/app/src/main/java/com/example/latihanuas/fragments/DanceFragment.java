@@ -34,20 +34,21 @@ public class DanceFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentDanceBinding.inflate(inflater);
+
         binding.btnPlayStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent serviceIntent = new Intent(getActivity(), PlayBabySharkService.class);
 
-                if (binding.btnPlayStop.getText().equals("Play")){
-                    binding.btnPlayStop.setText("Stop");
-                    getActivity().startService(serviceIntent);
+                if (binding.btnPlayStop.getText().equals("Stop")){
+                    getActivity().stopService(serviceIntent);
+                    binding.btnPlayStop.setText("Start");
                 }
 
                 else {
-                    binding.btnPlayStop.setText("Play");
-                    getActivity().stopService(serviceIntent);
+                    getActivity().startService(serviceIntent);
+                    binding.btnPlayStop.setText("Stop");
                 }
 
             }

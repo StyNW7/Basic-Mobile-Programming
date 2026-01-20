@@ -25,7 +25,7 @@ import org.json.JSONException;
 
 public class DdolFragment extends Fragment {
     private TextView txtSetup, txtPunchline;
-    private Button btnGetAnother, btnReveal;
+    private Button btnReveal, btnGetAnother;
     private RequestQueue requestQueue;
 
     public DdolFragment() {
@@ -46,9 +46,11 @@ public class DdolFragment extends Fragment {
 
         txtSetup = view.findViewById(R.id.txtSetup);
         txtPunchline = view.findViewById(R.id.txtPunchline);
-        btnGetAnother = view.findViewById(R.id.btnGetAnother);
         btnReveal = view.findViewById(R.id.btnReveal);
+        btnGetAnother = view.findViewById(R.id.btnGetAnother);
         requestQueue = Volley.newRequestQueue(this.getContext());
+
+        fetchDdol();
 
         btnReveal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,24 +73,22 @@ public class DdolFragment extends Fragment {
     public void fetchDdol(){
 
         String url = "https://official-joke-api.appspot.com/random_joke";
+
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 response -> {
-
                     try {
 
-                        String punchline = response.getString("punchline");
                         String setup = response.getString("setup");
-
-                        txtPunchline.setText(punchline);
+                        String punchline = response.getString("punchline");
                         txtSetup.setText(setup);
+                        txtPunchline.setText(punchline);
                         txtPunchline.setVisibility(View.GONE);
 
                     }
-                    catch (JSONException e) {
+                    catch (JSONException e){
                         e.printStackTrace();
                     }
-
                 },
                 error -> {
                     Toast.makeText(getContext(), "Fail to load a joke", Toast.LENGTH_SHORT).show();

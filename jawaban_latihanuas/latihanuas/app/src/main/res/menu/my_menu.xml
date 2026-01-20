@@ -9,4 +9,9 @@
         android:id="@+id/menu_dance"
         android:icon="@drawable/dance_icon"
         android:title="Dance" />
+    <item
+        android:id="@+id/menu_joke"
+        android:icon="@drawable/ddol_icon"
+        android:title="Jokes"
+        />
 </menu>
