@@ -29,17 +29,22 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new FragmentHome());
 
         nav.setOnItemSelectedListener(item -> {
+
             Fragment fragment = null;
 
-            if (item.getItemId() == R.id.nav_home) {
+            if (item.getItemId() == R.id.nav_home){
                 fragment = new FragmentHome();
-            } else if (item.getItemId() == R.id.nav_music) {
-                fragment = new FragmentMusic();
-            } else if (item.getItemId() == R.id.nav_about) {
+            }
+            else if (item.getItemId() == R.id.nav_about){
                 fragment = new FragmentAbout();
             }
+            else if (item.getItemId() == R.id.nav_music){
+                fragment = new FragmentMusic();
+            }
             return loadFragment(fragment);
+
         });
+
     }
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
@@ -51,4 +56,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }

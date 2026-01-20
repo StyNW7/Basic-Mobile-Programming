@@ -11,6 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +33,7 @@ public class FragmentMusic extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup c, Bundle b) {
+
         View v = i.inflate(R.layout.fragment_music, c, false);
 
         recycler = v.findViewById(R.id.recyclerMusic);
@@ -30,12 +41,14 @@ public class FragmentMusic extends Fragment {
         adapter = new MusicAdapter(getContext(), list);
         recycler.setAdapter(adapter);
 
-        loadMusic();
+        loadMusicVolley();
 
         return v;
+
     }
 
     private void loadMusic() {
+
         RetrofitAPIService api =
                 RetrofitAPIClient.getClient().create(RetrofitAPIService.class);
 
@@ -49,5 +62,57 @@ public class FragmentMusic extends Fragment {
             }
             public void onFailure(Call<DeezerResponse> c, Throwable t) {}
         });
+
     }
+
+    private void loadMusicVolley() {
+
+        String url = "https://api.deezer.com/search?q=eminem";
+
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        JSONArray dataArray = response.getJSONArray("data");
+
+                        list.clear();
+
+                        for (int i = 0; i < dataArray.length(); i++) {
+
+                            JSONObject trackObj = dataArray.getJSONObject(i);
+
+                            // Track
+                            Track track = new Track();
+                            track.setTitle(trackObj.getString("title"));
+                            track.setPreview(trackObj.getString("preview"));
+
+                            // Artist (nested object)
+                            JSONObject artistObj = trackObj.getJSONObject("artist");
+                            Artist artist = new Artist();
+
+                            Field nameField = Artist.class.getDeclaredField("name");
+                            nameField.setAccessible(true);
+                            nameField.set(artist, artistObj.getString("name"));
+
+                            track.setArtist(artist);
+
+                            list.add(track);
+                        }
+
+                        adapter.notifyDataSetChanged();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> error.printStackTrace()
+        );
+
+        queue.add(request);
+    }
+
 }

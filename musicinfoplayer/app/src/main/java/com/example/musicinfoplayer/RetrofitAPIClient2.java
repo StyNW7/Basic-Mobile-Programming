@@ -3,7 +3,8 @@ package com.example.musicinfoplayer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitAPIClient {
+public class RetrofitAPIClient2 {
+
     private static Retrofit retrofit;
 
     public static Retrofit getClient(){
