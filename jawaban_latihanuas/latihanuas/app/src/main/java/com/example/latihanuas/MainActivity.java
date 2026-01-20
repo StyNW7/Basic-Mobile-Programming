@@ -36,29 +36,34 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        bottomNavigationView = findViewById(R.id.bottomNav);
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, new DdolFragment())
                 .commit();
 
+        bottomNavigationView = findViewById(R.id.bottomNav);
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
+
             if (item.getItemId() == R.id.menu_dance){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DanceFragment())
                         .commit();
             }
+
             else if (item.getItemId() == R.id.menu_ddol){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DdolFragment())
                         .commit();
             }
+
             else if (item.getItemId() == R.id.menu_joke){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new JokeFragment())
                         .commit();
             }
+
             return false;
+
         });
 
     }

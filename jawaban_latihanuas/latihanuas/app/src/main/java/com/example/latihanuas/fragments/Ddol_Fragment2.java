@@ -2,6 +2,8 @@ package com.example.latihanuas.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -31,8 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Ddol_Fragment2 extends Fragment {
 
-    private TextView txtSetup, txtPunchLine;
-    private Button getAnotherBtn, getRevealBtn;
+    private TextView txtSetup, txtPunchline;
+    private Button btnReveal, btnGetAnother;
     private RequestQueue requestQueue;
 
     public Ddol_Fragment2 () {
@@ -44,36 +46,33 @@ public class Ddol_Fragment2 extends Fragment {
 
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ddol_2, container, false);
+
+        txtPunchline = view.findViewById(R.id.txtPunchline);
         txtSetup = view.findViewById(R.id.txtSetup);
-        txtPunchLine = view.findViewById(R.id.txtPunchline);
-        getAnotherBtn = view.findViewById(R.id.btnGetAnother);
-        getRevealBtn = view.findViewById(R.id.btnReveal);
-        requestQueue = Volley.newRequestQueue(getContext());
+        btnReveal = view.findViewById(R.id.btnReveal);
+        btnGetAnother = view.findViewById(R.id.btnGetAnother);
+        requestQueue = Volley.newRequestQueue(this.getContext());
 
-        fetchDdol();
-
-        getAnotherBtn.setOnClickListener(new View.OnClickListener() {
+        btnGetAnother.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fetchDdol();
             }
         });
 
-        getRevealBtn.setOnClickListener(new View.OnClickListener() {
+        btnReveal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txtPunchLine.setVisibility(View.VISIBLE);
-                getRevealBtn.setEnabled(false);
+                txtPunchline.setVisibility(View.VISIBLE);
+                btnReveal.setEnabled(false);
             }
         });
 
         return view;
-
     }
 
     public void fetchDdol(){
@@ -85,25 +84,25 @@ public class Ddol_Fragment2 extends Fragment {
                 response -> {
 
                     try {
-                        String type = response.getString("type");
-                        int id = response.getInt("id");
+                        String punchline = response.getString("punchline");
                         String setup = response.getString("setup");
-                        String punchLine = response.getString("punchline");
+                        txtPunchline.setText(punchline);
                         txtSetup.setText(setup);
-                        txtPunchLine.setText(punchLine);
-                        txtPunchLine.setVisibility(View.GONE);
-                    } catch (JSONException e) {
+                        txtPunchline.setVisibility(View.GONE);
+                    }
+
+                    catch (JSONException e){
                         e.printStackTrace();
                     }
 
                 },
                 error -> {
-                    Toast.makeText(getContext(), "Failed to load Joke", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Fail to load a joke", Toast.LENGTH_SHORT).show();
                 }
         );
 
         requestQueue.add(request);
-        getRevealBtn.setEnabled(true);
+        btnReveal.setEnabled(true);
 
     }
 
@@ -118,6 +117,7 @@ public class Ddol_Fragment2 extends Fragment {
             payload.put("body", "testttt");
             payload.put("id", 1);
         }
+
         catch (JSONException e){
             e.printStackTrace();
         }
@@ -135,6 +135,35 @@ public class Ddol_Fragment2 extends Fragment {
         );
 
     }
+
+
+    public void postMethod2(){
+
+        String url = "https://official-joke-api.appspot.com/random_joke";
+
+        JSONObject payload = new JSONObject();
+
+        try {
+            payload.put("punchline", "test");
+            payload.put("setup", "lol");
+        }
+
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST, url, payload,
+                response -> {
+                    Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
+                }
+        );
+
+    }
+
 
 //    public void fetchRetrofit(){
 //
@@ -165,5 +194,35 @@ public class Ddol_Fragment2 extends Fragment {
 //        });
 //
 //    }
+
+    public void fetchPost(){
+
+        String url = "https://official-joke-api.appspot.com/random_joke";
+
+        JSONObject payload = new JSONObject();
+
+        try {
+            payload.put("setup", "test");
+            payload.put("id", 1);
+            payload.put("punchline", "test");
+        }
+
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST, url, payload,
+                response -> {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                },
+                error -> {
+                    Toast.makeText(getContext(), "Failed to post data", Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        requestQueue.add(request);
+
+    }
 
 }

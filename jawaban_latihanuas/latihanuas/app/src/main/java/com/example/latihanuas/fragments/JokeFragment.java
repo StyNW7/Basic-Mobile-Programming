@@ -106,40 +106,39 @@ public class JokeFragment extends Fragment {
 
     private void fetchJokes2(){
 
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
 
-        JsonArrayRequest array = new JsonArrayRequest(
-                Request.Method.GET,
-                URL,
-                null,
+        JsonArrayRequest request = new JsonArrayRequest(
+                Request.Method.GET, URL, null,
                 response -> {
-
                     try {
 
                         for (int i = 0; i < response.length(); i++){
+
                             JSONObject obj = response.getJSONObject(i);
                             Joke joke = new Joke(
                                     obj.getString("type"),
                                     obj.getString("setup"),
-                                    obj.getString("punchline"));
+                                    obj.getString("punchline")
+                            );
+
                             jokeList.add(joke);
+
                         }
 
                         adapter.notifyDataSetChanged();
 
                     }
-
                     catch (JSONException e){
                         e.printStackTrace();
                     }
-
                 },
                 error -> {
-                    Toast.makeText(getContext(), "Fail to load jokes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Fail to fetch jokes", Toast.LENGTH_SHORT).show();
                 }
         );
 
-        queue.add(array);
+        requestQueue.add(request);
 
     }
 

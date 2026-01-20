@@ -41,14 +41,14 @@ public class DanceFragment extends Fragment {
 
                 Intent serviceIntent = new Intent(getActivity(), PlayBabySharkService.class);
 
-                if (binding.btnPlayStop.getText().equals("Stop")){
-                    getActivity().stopService(serviceIntent);
-                    binding.btnPlayStop.setText("Start");
+                if (binding.btnPlayStop.getText().equals("Play")){
+                    getActivity().startService(serviceIntent);
+                    binding.btnPlayStop.setText("Stop");
                 }
 
                 else {
-                    getActivity().startService(serviceIntent);
-                    binding.btnPlayStop.setText("Stop");
+                    getActivity().stopService(serviceIntent);
+                    binding.btnPlayStop.setText("Play");
                 }
 
             }

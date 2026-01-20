@@ -40,6 +40,7 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.ViewHolder> {
         holder.tvType.setText(joke.getType());
         holder.tvSetup.setText(joke.getSetup());
         holder.tvPunchline.setText(joke.getPunchline());
+
     }
 
     @Override
