@@ -11,24 +11,32 @@ import androidx.annotation.Nullable;
 import com.example.latihanuas.R;
 
 public class PlayBabySharkService extends Service {
+
     private MediaPlayer mediaPlayer;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //TODO 3A: play baby shark dari R.raw di sini
-        if(mediaPlayer == null){
+
+        if (mediaPlayer == null){
+
             mediaPlayer = MediaPlayer.create(this, R.raw.mybaby_shark);
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
+
         }
 
         return START_STICKY;
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //TODO 3B: stop media player
-        mediaPlayer.stop();
+        if (mediaPlayer != null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     @Nullable

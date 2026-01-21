@@ -15,6 +15,7 @@ import com.example.latihanuas.R;
 import com.example.latihanuas.models.Joke;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.JokeHolder> {
     Context mCtx;
@@ -35,22 +36,48 @@ public class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.JokeHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull JokeHolder holder, int position) {
-        //TODO: tampilin list Joke
+
         Joke data = jokeList.get(position);
         holder.txtSetup.setText(data.setup);
         holder.txtType.setText(data.type);
 
-        //TODO: handle kalau item diklik, pindah ke JokeDetailActivity membawa setup, punchline, type, likes, views, shares
         holder.itemView.setOnClickListener(view -> {
+
+            Intent i = new Intent(mCtx, JokeDetailActivity.class);
+            i.putExtra("setup", data.setup);
+            i.putExtra("punchline", data.punchline);
+            i.putExtra("type", data.type);
+            i.putExtra("id", data.id);
+            i.putExtra("views", data.stats.views);
+            i.putExtra("likes", data.stats.likes);
+            i.putExtra("shares", data.stats.shares);
+
+            mCtx.startActivity(i);
+
+        });
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull JokeHolder holder, int position, @NonNull List<Object> payloads) {
+
+        Joke data = jokeList.get(position);
+        holder.txtType.setText(data.type);
+        holder.txtSetup.setText(data.setup);
+
+        holder.itemView.setOnClickListener(view -> {
+
             Intent i = new Intent(mCtx, JokeDetailActivity.class);
             i.putExtra("setup", data.setup);
             i.putExtra("punchline", data.punchline);
             i.putExtra("type", data.type);
             i.putExtra("likes", data.stats.likes);
-            i.putExtra("views", data.stats.views);
             i.putExtra("shares", data.stats.shares);
+            i.putExtra("views", data.stats.views);
             mCtx.startActivity(i);
+
         });
+
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import kotlinx.coroutines.scheduling.Task;
 
 public class JokesFragment extends Fragment {
     RecyclerView rvJokes;
@@ -51,8 +54,8 @@ public class JokesFragment extends Fragment {
         rvJokes = view.findViewById(R.id.rvJokes);
         rvJokes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//      TODO: fetchJokes, tampilin jokeList ke RecyclerView
         fetchJokes();
+
         adapter = new JokesAdapter(jokesList);
         rvJokes.setAdapter(adapter);
 
@@ -88,7 +91,9 @@ public class JokesFragment extends Fragment {
 
                         jokesList.add(joke);
                     }
+
                     adapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -108,57 +113,57 @@ public class JokesFragment extends Fragment {
 
         String url = "https://coba-api.risol.biz.id/get_jokes.php";
         jokesList.clear();
-
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
-                try {
+                        try {
 
-                    JSONArray jsonArray = response.getJSONArray("data");
+                            JSONArray jsonArray = response.getJSONArray("data");
 
-                    for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++){
 
-                        JSONObject data = jsonArray.getJSONObject(i);
+                                JSONObject data = jsonArray.getJSONObject(i);
 
-                        Joke joke = new Joke();
-                        joke.id = data.getInt("id");
-                        joke.type = data.getString("type");
-                        joke.setup = data.getString("setup");
-                        joke.punchline = data.getString("punchline");
+                                Joke joke = new Joke();
+                                joke.id = data.getInt("id");
+                                joke.type = data.getString("type");
+                                joke.setup = data.getString("setup");
+                                joke.punchline = data.getString("punchline");
 
-                        joke.stats = new Stat();
-                        JSONObject stat = data.getJSONObject("stats");
+                                joke.stats = new Stat();
+                                JSONObject stats = data.getJSONObject("stats");
+                                joke.stats.shares = stats.getInt("shares");
+                                joke.stats.likes = stats.getInt("likes");
+                                joke.stats.views = stats.getInt("views");
 
-                        joke.stats.likes = stat.getInt("likes");
-                        joke.stats.views = stat.getInt("views");
-                        joke.stats.shares = stat.getInt("shares");
+                                jokesList.add(joke);
 
-                        jokesList.add(joke);
+                            }
+
+                            adapter.notifyDataSetChanged();
+
+                        }
+
+                        catch (JSONException e){
+                            throw new RuntimeException(e);
+                        }
 
                     }
-
-                    adapter.notifyDataSetChanged();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Fail to load jokes", Toast.LENGTH_SHORT).show();
+                    }
                 }
+        );
 
-            }
-        },
-
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }
-
-
-        )
+        requestQueue.add(request);
 
     }
 

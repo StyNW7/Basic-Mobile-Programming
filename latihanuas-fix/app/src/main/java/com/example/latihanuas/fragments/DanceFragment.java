@@ -47,11 +47,10 @@ public class DanceFragment extends Fragment {
                     binding.btnPlayStop.setText("Play");
                 }
 
-
             }
         });
 
-
         return binding.getRoot();
+
     }
 }

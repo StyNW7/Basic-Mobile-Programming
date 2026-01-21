@@ -67,23 +67,25 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
+
             if (item.getItemId() == R.id.menu_ddol){
-                getSupportFragmentManager()
-                        .beginTransaction()
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DdolFragment())
                         .commit();
             }
-            else if(item.getItemId() == R.id.menu_dance){
-                getSupportFragmentManager()
-                        .beginTransaction()
+
+            else if (item.getItemId() == R.id.menu_dance){
+                getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new DanceFragment())
                         .commit();
             }
-            else if(item.getItemId() == R.id.menu_jokes){
+
+            else if (item.getItemId() == R.id.menu_jokes){
                 changeFragment(new JokesFragment());
             }
 
             return true;
+
         });
 
     }

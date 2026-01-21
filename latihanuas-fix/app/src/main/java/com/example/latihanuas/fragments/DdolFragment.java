@@ -2,6 +2,8 @@ package com.example.latihanuas.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Request;
@@ -50,7 +53,6 @@ public class DdolFragment extends Fragment {
         btnReveal = view.findViewById(R.id.btnReveal);
         btnGetAnother = view.findViewById(R.id.btnGetAnother);
         requestQueue = Volley.newRequestQueue(getContext());
-
 
         fetchDdol();
         btnGetAnother.setOnClickListener(new View.OnClickListener() {
@@ -98,4 +100,44 @@ public class DdolFragment extends Fragment {
 
         requestQueue.add(request);
     }
+
+    public void fetchDdol2(){
+
+        String url = "https://official-joke-api.appspot.com/random_joke";
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+
+                            String setup = response.getString("setup");
+                            String punchline = response.getString("punchline");
+                            txtSetup.setText(setup);
+                            txtPunchline.setText(punchline);
+                            txtPunchline.setVisibility(View.GONE);
+
+                        }
+
+                        catch (JSONException e){
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), "Fail to load a joke", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        requestQueue.add(request);
+        btnReveal.setEnabled(true);
+
+    }
+
 }

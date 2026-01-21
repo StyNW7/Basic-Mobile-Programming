@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class JokeDetailActivity extends AppCompatActivity {
     TextView txtSetup, txtPunchline, txtType, txtLikes, txtViews, txtshares;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +32,17 @@ public class JokeDetailActivity extends AppCompatActivity {
         txtshares = findViewById(R.id.txtShare);
 
         //TODO: tampilin data dari Intent ke textview
+
         Intent i = getIntent();
+
         txtSetup.setText(i.getStringExtra("setup"));
         txtPunchline.setText(i.getStringExtra("punchline"));
         txtType.setText(i.getStringExtra("type"));
+
+        txtshares.setText(String.valueOf(i.getIntExtra("shares", 0)));
         txtLikes.setText(String.valueOf(i.getIntExtra("likes", 0)));
         txtViews.setText(String.valueOf(i.getIntExtra("views", 0)));
-        txtshares.setText(String.valueOf(i.getIntExtra("share", 0)));
 
     }
+
 }
