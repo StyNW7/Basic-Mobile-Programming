@@ -36,7 +36,7 @@ public class Dance2Fragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent serviceIntent = new Intent(getActivity(), PlayBabySharkService.class);
+                Intent serviceIntent = new Intent(getContext(), PlayBabySharkService.class);
 
                 if (binding.btnPlayStop.getText().equals("Play")){
                     getActivity().startService(serviceIntent);
