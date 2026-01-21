@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 
+import java.io.IOException;
+
 public class MusicService2 extends Service {
     public MusicService2() {
     }

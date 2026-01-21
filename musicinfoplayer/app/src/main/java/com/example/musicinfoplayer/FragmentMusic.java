@@ -47,20 +47,24 @@ public class FragmentMusic extends Fragment {
 
     }
 
-    private void loadMusic() {
+    private void loadMusic(){
 
-        RetrofitAPIService api =
-                RetrofitAPIClient.getClient().create(RetrofitAPIService.class);
+        RetrofitAPIService api = RetrofitAPIClient.getClient().create(RetrofitAPIService.class);
 
         api.searchMusic("eminem").enqueue(new Callback<DeezerResponse>() {
-            public void onResponse(Call<DeezerResponse> c, Response<DeezerResponse> r) {
-                if (r.isSuccessful() && r.body() != null) {
+            @Override
+            public void onResponse(Call<DeezerResponse> call, Response<DeezerResponse> response) {
+                if (response.isSuccessful() && response.body() != null){
                     list.clear();
-                    list.addAll(r.body().getData());
+                    list.addAll(response.body().getData());
                     adapter.notifyDataSetChanged();
                 }
             }
-            public void onFailure(Call<DeezerResponse> c, Throwable t) {}
+
+            @Override
+            public void onFailure(Call<DeezerResponse> call, Throwable t) {
+
+            }
         });
 
     }
@@ -91,6 +95,7 @@ public class FragmentMusic extends Fragment {
                             track.setPreview(trackObj.getString("preview"));
 
                             // Artist (nested object)
+
                             JSONObject artistObj = trackObj.getJSONObject("artist");
                             Artist artist = new Artist();
 
